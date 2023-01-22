@@ -1,0 +1,8 @@
+django
+djangorestframework
+django-filter
+postgres
+psycopg2
+django-environ
+django-rest-knox
+django-crispy-forms
