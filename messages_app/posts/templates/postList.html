@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    input {
+        width: 20%;
+        padding: 6px 10px;
+        margin: 8px 0;
+        display: block;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        box-sizing: border-box;
+        display: inline;
+        }
+    body {
+        background-color: lightblue;
+    }
+    
+    h1 {
+        color: white;
+        text-align: center;
+    }
+    
+    p {
+        font-family: verdana;
+        font-size: 20px;
+        color: red;
+        text-align: center;
+    }
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        }
+    li {
+        display: inline;
+        }
+    .button {
+        border: 1px solid black;
+        background-color: rgb(80, 79, 133);
+        box-shadow: rgb(80, 79, 133);
+        border-radius: 5px;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        }
+    .show {display: block;text-align: right;}
+    .button1 {background-color: #008CBA;} /* Blue */
+</style>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="theme-color" content="#000000">
+	<link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+	<link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title>Messages App</title>
+</head>
+<body>
+    <nav style="background-color:#0e8436">
+        <div>
+            <ul>
+                <li>
+                    <a class="button" style="color: #f8f9fa;" href='/post-api/'>POST-API</a>
+                </li>
+                <li>
+                    <a class="button" style="color: #f8f9fa;" href='/postList/{{ user.id }}'>My Posts</a>
+                </li>
+                <li>
+                    <a class="button" style="color: #f8f9fa;" href='/postList/{{ user.id }}/postcreate/'>+</a>
+                </li>
+                <li>
+                    <a class="button" style="color: #f8f9fa;" href='/logout/'>Logout</a>
+                </li>
+                <form style="display: inline" action="">
+                    <input type="text" style="float:inline-end;" name="search user" placeholder="Search">
+                </form>
+            </ul>
+        </div>
+    </nav>
+    {% for post in posts %}
+    <ul style="border-style: solid;background-color: white;position:relative;width: 750px;border: 15px solid green;padding: 50px;margin: 10px;">
+        <h3>{{post.user.first_name}} {{post.user.last_name}} posted a message</h3>
+        <h4 style="border-style: hidden">Title- {{ post.title }}</h4>
+            <li>Content - {{ post.message }}</li>
+            <p style="text-align: left;"> 
+                <form action="/postList/{{ post.id }}/like/" method="post">
+                    {% csrf_token %}
+                    <button class="button button1">Likes : {{ post.count }} </button>
+                </form>
+                
+            </p>
+            <p style="text-align: right;color: rgb(157, 64, 156);">posted on {{ post.posted_date }}</p>
+            <p></p>
+    </ul>
+            
+    {% endfor %}
+</body>
+
