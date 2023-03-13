@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="theme-color" content="#000000">
+	<link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+	<link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="{% static 'likes.js' %}"></script>
+    
+    <title>Messages App</title>
+</head>
+<body>
+    <nav style="background-color:#0e8436">
+        <div>
+            <ul>
+                <li>
+                    <a class="button" style="color: #f8f9fa;" href='/postList/'>Home</a>
+                </li>
+                <li>
+                    <a class="button" style="color: #f8f9fa;" href='/postList/{{ user.id }}/postcreate/'>Add Post</a>
+                </li>
+                <li>
+                    <a class="button" style="color: #f8f9fa;" href='/logout/'>Logout</a>
+                </li>
+                <form style="display: inline" action="">
+                    <input type="text" style="float:inline-end;" name="search user" placeholder="Search user">
+                </form>
+            </ul>
+        </div>
+    </nav>
+    {% for post in posts %}
+    <ul style="border-style: solid;background-color: white;position:relative;width: 750px;border: 15px solid green;padding: 50px;margin: 10px;">
+        <h3>{{post.user.first_name}} {{post.user.last_name}} posted a message</h3>
+        <h4 style="border-style: hidden">Title- {{ post.title }}</h4>
+            <li>Content - {{ post.message }}</li>
+            <p style="text-align: left;"> 
+                <!-- <form action="/postList/{{ post.id }}/like/" method="post">
+                    {% csrf_token %}
+                    <button class="button button1">Likes : {{ post.likes.count }} </button>
+                </form> -->
+                <button class="button button1 like-button" id="like{{post.id}}"  data-post-id="{{ post.id }}">Likes : {{ post.likes.count }}</button>
+                <a class="button button2" href="/postList/{{ user.id }}/{{ post.id }}/edit">Edit post</a>
+                <a class="button button3" href="/postList/{{ user.id }}/{{ post.id }}/delete">Delete post</a>
+            </p>
+            <p style="text-align: right;color: rgb(157, 64, 156);">posted on {{ post.posted_date }}</p>
+            <p></p>
+    </ul>
+            
+    {% endfor %}
+    <script type="text/javascript">
+        $('.like-button').on('click', function(event) {
+        event.preventDefault();
+        var pk = $(this).attr('data-post-id');
+        var url = '/postList/'+pk+'/like/';
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                pk: pk},
+            success: function(response) {
+                console.log("hello")
+                var likes = response.likes;
+                $('#like' + pk).text("Likes : " + likes);
+            }
+        });
+    });
+    </script>
+</body>
+
