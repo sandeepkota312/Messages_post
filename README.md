@@ -5,7 +5,9 @@ This API should allow users to:
 1. Post a new message 
 2. View a list of all messages, with the most recent messages first 
 3. Like a message by clicking a button 
-4. View the total number of likes for each message 
+4. View the total number of likes for each message
+5. Edit/DELETE the post
+6. Also created a rest API for the same
 
 Instructions:
 1. clone the resources into your local machine
