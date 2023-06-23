@@ -1,5 +1,5 @@
 from django.shortcuts import redirect,render
-from .models import Messages
+from .models import Messages,comments,User
 from .serializers import MessageSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -57,6 +57,29 @@ def postsList(request):
         return render(request=request,template_name='postList.html',context={"posts":posts,"user":request.user})
     else:
         return redirect("/login/")
+    
+def comment_section(request,post_id):
+    post=get_object_or_404(Messages,id=post_id)
+    comments_list=comments.objects.filter(post=post).order_by('-posted_date')
+    data={
+        'post':post,
+        'comments': comments_list,
+        'length' : len(comments_list),
+    }
+    return render(request=request,template_name="comment_section.html",context=data)
+
+def add_comment(request,post_id):
+    if request.method=="POST":
+        if request.user.is_authenticated:
+            # print('reached till here')
+            comments.add_comment(curr_user_id=request.user.id,post_id=post_id,comment=request.POST['comment'])
+            print('posted comment')
+            return redirect(f"/postList/{post_id}/comments")
+        else:
+            redirect("/logout/")
+    else:
+        return redirect(f"/postList/{post_id}/comments")
+
 def editpost(request,pk,pk1):
     post=get_object_or_404(Messages,id=pk1)
     if request.method=="POST":

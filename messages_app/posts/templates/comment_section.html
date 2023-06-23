@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="theme-color" content="#000000">
+	<link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+	<link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="{% static 'likes.js' %}"></script>
+    
+    <title>Messages App</title>
+</head>
+<body>
+    <nav style="background-color:#0e8436">
+        <div>
+            <ul>
+                <li>
+                    <a class="button" style="color: #f8f9fa;" href='/postList/'>Home</a>
+                </li>
+                <li>
+                    <a class="button" style="color: #f8f9fa;" href='/postList/{{ user.id }}/postcreate/'>Add Post</a>
+                </li>
+                <li>
+                    <a class="button" style="color: #f8f9fa; float: right;" href='/logout/'>Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <ul style="border-style: solid;background-color: white;position:relative;width: 900px;border: 15px solid green; padding: 50px; margin: 10px;">
+        <!-- <h3>{{post.user.first_name}} {{post.user.last_name}} posted a message</h3> -->
+        <h4 style="font-size: larger; border-style: hidden">Title- {{ post.title }}</h4>
+        <li style="font-size: large; border-style: solid; background-color: white; width: 250px; border: 2px solid rgb(134, 125, 125); padding: 5px; margin: 5px; color: black;">Content - {{ post.message }}</li><br>
+        <br>
+        <br>
+        {% if length == 0 %}
+            <p style="text-align: left;"> No comments so far</p>
+            <b style="font-size: large;">comment:</b>   
+            <form action="/postList/{{ post.id }}/comments/add" method="post">
+                {% csrf_token %}
+                <input type="text" style="display: flex;" id="icomment" name="comment">
+                <input type="submit" class="comment-button" style="display:flex; width: 10%;" name="add_comment" >
+            </form>
+        {% else %}
+            <b style="font-size: large;">comment:</b>
+            <form action="/postList/{{ post.id }}/comments/add" method="post">
+                {% csrf_token %}
+                <input type="text" style="display: flex;" id="icomment" name="comment">
+                <input type="submit" class="comment-button" style="display:flex; width: 10%;" name="add_comment" >
+            </form>
+            <b style="font-size: large;">comments:</b>
+                <ul style="border-style: solid; background-color: white; position:relative; width: 400px; border: 2px solid rgb(134, 125, 125); padding: 5px; margin: 5px;">
+                    {% for comment in comments %}
+                    <p style="text-align: left;color:black;">{{comment.curr_user}} - {{comment.comment}}</p>
+                    {% endfor %}
+                </ul>
+            
+        {% endif %}
+    </ul>
+    <!-- <script type="text/javascript">
+        $('.comment-button').on('click', function(event) {
+        event.preventDefault();
+        var post_id = $(this).attr('data-post-id');
+        var url = 'postList/'+ post_id +'/comments/add';
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                post_id: post_id
+                },
+            success: function(response) {
+                console.log("hello")
+                var likes = response.likes;
+                $('#comment' + response.comment.commend_id).text("Likes : " + likes);
+            }
+        });
+    });
+    </script> -->
+</body>
+
