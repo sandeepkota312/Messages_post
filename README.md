@@ -15,6 +15,6 @@ Instructions:
 6. then migrate the contents into the database - 'python manage.py makemigrations' then 'python manage.py migrate'
 8. run the server using 'python manage.py runserver'
 9. create an account and login
-10. from there you will have a set of url directories for the mentioned functionality attached(create a post, post list, like a post, modify a post, delete a post)
+10. from there you will have a set of url directories for the mentioned functionality attached(create a post, post list, like and comment a post, modify a post, delete a post)
 
 
