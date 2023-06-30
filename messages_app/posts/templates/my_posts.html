@@ -6,43 +6,82 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="theme-color" content="#000000">
-	<link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-	<link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="{% static 'likes.js' %}"></script>
-    
+    <style>
+        body {
+        background-color: rgb(255, 255, 255);
+        }
+        ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #333;
+        }
+        
+        li a {
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+        }
+        
+        li a:hover {
+          background-color: #111;
+        }
+        div.container {
+            text-align: center;
+        }
+    </style>
     <title>Messages App</title>
 </head>
 <body>
-    <nav style="background-color:#0e8436">
+    <nav style="background-color:#414342">
         <div>
             <ul>
-                <li>
-                    <a class="button" style="color: #f8f9fa;" href='/postList/'>Home</a>
+                <li style="float:left;">
+                    <a href='/postList/'>Home</a>
                 </li>
-                <li>
-                    <a class="button" style="color: #f8f9fa;" href='/postList/{{ user.id }}/postcreate/'>Add Post</a>
+                <li style="float:left;">
+                    <a href='/postList/{{ user.id }}/postcreate/'>Add Post</a>
                 </li>
-                <li>
-                    <a class="button" style="color: #f8f9fa; float: right;" href='/logout/'>Logout</a>
+                <li style="float:left;">
+                    <a href='/logout/'>Logout</a>
                 </li>
             </ul>
         </div>
     </nav>
     {% for post in posts %}
-    <ul style="border-style: solid;background-color: white;position:relative;width: 900px;border: 15px solid green; padding: 50px; margin: 10px;">
+    <ul style="border-style: solid;background-color: white;position:relative;width: 900px;border: 5px solid grgb(0, 0, 0); padding:10px; margin: 10px;">
         <h3>{{post.user.first_name}} {{post.user.last_name}} posted a message</h3>
         <h4 style="border-style: hidden">Title- {{ post.title }}</h4>
+        {% if post.image %}
+        <img width="200" height="300" src="{{ post.image.url }}">
+        {% endif %}
+        <br>
+        <br>
         <li style="border-style: solid; background-color: white; position:relative; width: 250px; border: 2px solid rgb(10, 10, 10); padding: 5px; margin: 5px; color: black;">Content - {{ post.message }}</li>
-        <p style="text-align: left;"> 
-            <button class="button button1 like-button" id="like{{post.id}}"  data-post-id="{{ post.id }}">Likes : {{ post.likes.count }}</button>
-            <a class="button button2" href="/postList/{{ user.id }}/{{ post.id }}/edit">Edit post</a>
+        <br>
+        <br>
+        <ul style="background-color: white;">
+            <p style="display: inline; word-spacing: 15px;">
+                <i id="like{{post.id}}" data-post-id="{{ post.id }}" style="float: left;"  class="fa fa-thumbs-up like-button">{{ post.likes.count }}</i> 
+                <i style="float: left;"  class="fa fa-pencil" href="/postList/{{ user.id }}/{{ post.id }}/edit">Edit</i>
+            </p>
             <a class="button button4" href="/postList/{{ post.id }}/comments">comments</a>
             <a class="button button3" href="/postList/{{ user.id }}/{{ post.id }}/delete">Delete post</a>
-        </p>
+        </ul>
+        
+        <!-- <p style="text-align: left;"> 
+            <i id="like{{post.id}}" data-post-id="{{ post.id }}" style="float: left;"  class="fa fa-thumbs-up like-button">{{ post.likes.count }}</i>
+            <i style="float: left;"  class="fa fa-pencil" href="/postList/{{ user.id }}/{{ post.id }}/edit">Edit</i>
+            <a class="button button4" href="/postList/{{ post.id }}/comments">comments</a>
+            <a class="button button3" href="/postList/{{ user.id }}/{{ post.id }}/delete">Delete post</a>
+        </p> -->
         <p style="text-align: right;color: rgb(157, 64, 156);">posted on {{ post.posted_date }}</p>
     </ul>
             
@@ -61,7 +100,7 @@
             success: function(response) {
                 console.log("hello")
                 var likes = response.likes;
-                $('#like' + pk).text("Likes : " + likes);
+                $('#like' + pk).text(likes);
             }
         });
     });

@@ -7,7 +7,7 @@ from django.contrib.auth.password_validation import validate_password
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model=Messages
-        fields=['user','id','title','message','likes']
+        fields=['user','id','title','message','likes','image',]
 
 
 

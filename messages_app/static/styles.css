@@ -33,8 +33,8 @@ li {
     }
 .button {
     border: 1px solid black;
-    background-color: rgb(80, 79, 133);
-    box-shadow: rgb(80, 79, 133);
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgb(255, 255, 255);
     border-radius: 5px;
     color: white;
     padding: 15px 32px;

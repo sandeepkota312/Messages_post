@@ -14,6 +14,7 @@ class Messages(models.Model):
     title=models.CharField(max_length=50)
     message=models.TextField()
     likes=models.ManyToManyField(User,related_name='post_likes',default=None)
+    image=models.ImageField(default=None,null=True,upload_to='images/')
     posted_date=models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering=('-posted_date',)

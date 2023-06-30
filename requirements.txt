@@ -1,6 +1,7 @@
 django
 djangorestframework
 django-filter
+pillow
 postgres
 psycopg2
 django-environ

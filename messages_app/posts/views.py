@@ -86,6 +86,9 @@ def editpost(request,pk,pk1):
         if request.user.is_authenticated:
             post.title=request.POST['Title']
             post.message=request.POST['Content']
+            post.image.delete()
+            post.image=request.FILES.get('Image')
+            print(post.image.url)
             post.save()
             return redirect("/postList/" + pk)
         else:
@@ -95,6 +98,7 @@ def editpost(request,pk,pk1):
             'title':post.title,
             'message':post.message,
             'id':post.id,
+            'image':post.image
         }
         print('reached till here')
         return render(request=request,template_name="editpost.html",context=data)
@@ -121,7 +125,8 @@ def postCreate(request,pk):
     if request.method=="POST":
         if request.user.is_authenticated:
             data={'title':request.POST['Title'],
-                'message':request.POST['Content'],}
+                'message':request.POST['Content'],
+                'image':request.FILES.get('Image'),}
             data['user']=str(request.user.id)
             serializer = MessageSerializer(data=data)
             if serializer.is_valid():
