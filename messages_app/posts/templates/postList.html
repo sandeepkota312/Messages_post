@@ -46,9 +46,9 @@
     <nav style="background-color:#000000">
         <div>
             <ul>
-                <li style="float:left;">
+                {% comment %} <li style="float:left;">
                     <a href='/post-api/'>POST-API</a>
-                </li>
+                </li> {% endcomment %}
                 <li style="float:left;">
                     <a href='/postList/{{ user.id }}'>My Posts</a>
                 </li>
@@ -72,11 +72,12 @@
         <br>
         <br>
         <h4 style="border-style: hidden">{{ post.title }}</h4>
-        <!-- <p style="color:black;">Content - {{ post.message }}</p> -->
+        {% comment %} <p style="color:black; float:left;">{{ post.message }}</p> {% endcomment %}
+        {% comment %} <br> {% endcomment %}
+
         <p style="text-align: left;"> 
             <i id="like{{post.id}}" data-post-id="{{ post.id }}" style="float: left;"  class="fa fa-thumbs-up like-button">{{ post.likes.count }}</i>
-            <!-- <button class="button button1 like-button" id="like{{post.id}}"  data-post-id="{{ post.id }}">Likes : {{ post.likes.count }}</button> -->
-            <a class="button button4" style="float: right;" href="/postList/{{ post.id }}/comments">comments</a>
+            <a class="button button4" style="float: right; color:black;" href="/postList/{{ post.id }}/comments">comments</a>
         </p>
         <!-- <p style="text-align: right;color: rgb(157, 64, 156);">posted on {{ post.posted_date }}</p> -->
     </ul>
@@ -111,4 +112,3 @@
     });
     </script>
 </body>
-
