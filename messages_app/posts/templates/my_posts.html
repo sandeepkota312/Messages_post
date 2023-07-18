@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <script src="{% static 'likes.js' %}"></script>
     <style>
         body {
@@ -56,24 +57,31 @@
         </div>
     </nav>
     {% for post in posts %}
-    <ul style="border-style: solid;background-color: white;position:relative;width: 900px;border: 5px solid grgb(0, 0, 0); padding:10px; margin: 10px;">
+    <ul style="border-style: solid;background-color: white;position:relative;width: 500px;border: 5px solid grgb(0, 0, 0); padding:10px; margin: 10px;">
         <h3>{{post.user.first_name}} {{post.user.last_name}} posted a message</h3>
         <h4 style="border-style: hidden">Title- {{ post.title }}</h4>
         {% if post.image %}
-        <img width="200" height="300" src="{{ post.image.url }}">
+            <img src="{{ post.image.url }}" width="200" height="200">
+        {% else %}
+            <p style="text-align: left;"> No image</p>
         {% endif %}
         <br>
         <br>
-        <li style="border-style: solid; background-color: white; position:relative; width: 250px; border: 2px solid rgb(10, 10, 10); padding: 5px; margin: 5px; color: black;">Content - {{ post.message }}</li>
+        <p style="color:black; float:left;">{{ post.message }}</p>
+        <br>
+        <br>
         <br>
         <br>
         <ul style="background-color: white;">
-            <p style="display: inline; word-spacing: 15px;">
-                <i id="like{{post.id}}" data-post-id="{{ post.id }}" style="float: left;"  class="fa fa-thumbs-up like-button">{{ post.likes.count }}</i> 
-                <i style="float: left;"  class="fa fa-pencil" href="/postList/{{ user.id }}/{{ post.id }}/edit">Edit</i>
+            <p style="display: inline; word-spacing: 5px;">
+                <i id="like{{post.id}}" data-post-id="{{ post.id }}" style="float: left;"  class="fa fa-thumbs-up like-button">{{ post.likes.count }}</i>
+                {% comment %} <br> {% endcomment %}
+                <a class="fa fa-envelope" style="float:right; color:black; text-decoration: none;" href="/postList/{{ post.id }}/comments"> comments</a>
+                <br>
+                <br>
+                <a style="float: left; text-decoration: none;"  class="fa fa-pencil" href="/postList/{{ user.id }}/{{ post.id }}/edit"> Edit</a>
+                <a class="fa fa-trash" style="float:right; color:black; text-decoration: none;" href="/postList/{{ user.id }}/{{ post.id }}/delete"> Delete</a>
             </p>
-            <a class="button button4" href="/postList/{{ post.id }}/comments">comments</a>
-            <a class="button button3" href="/postList/{{ user.id }}/{{ post.id }}/delete">Delete post</a>
         </ul>
         
         <!-- <p style="text-align: left;"> 
